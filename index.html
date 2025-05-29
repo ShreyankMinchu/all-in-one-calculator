@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Calculator Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .result-breakdown {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧮 Calculator Hub</h1>
+            <p class="subtitle">Your All-in-One Calculation Solution</p>
+        </header>
+
+        <div class="calculator-grid">
+            <!-- EMI Calculator -->
+            <div class="calculator-card">
+                <div class="card-header">
+                    <div class="card-icon">🏠</div>
+                    <h2 class="card-title">EMI Calculator</h2>
+                </div>
+                <div class="form-group">
+                    <label>Loan Amount (₹)</label>
+                    <input type="number" id="loanAmount" placeholder="e.g., 1000000">
+                </div>
+                <div class="two-col">
+                    <div class="form-group">
+                        <label>Interest Rate (%)</label>
+                        <input type="number" id="interestRate" step="0.1" placeholder="e.g., 8.5">
+                    </div>
+                    <div class="form-group">
+                        <label>Tenure (Years)</label>
+                        <input type="number" id="loanTenure" placeholder="e.g., 20">
+                    </div>
+                </div>
+                <button class="btn" onclick="calculateEMI()">Calculate EMI</button>
+                <div id="emiResult" class="result"></div>
+            </div>
+
+            <!-- BMI Calculator -->
+            <div class="calculator-card">
+                <div class="card-header">
+                    <div class="card-icon">⚖️</div>
+                    <h2 class="card-title">BMI Calculator</h2>
+                </div>
+                <div class="two-col">
+                    <div class="form-group">
+                        <label>Height (cm)</label>
+                        <input type="number" id="height" placeholder="e.g., 170">
+                    </div>
+                    <div class="form-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" id="weight" placeholder="e.g., 70">
+                    </div>
+                </div>
+                <button class="btn" onclick="calculateBMI()">Calculate BMI</button>
+                <div id="bmiResult" class="result"></div>
+            </div>
+
+            <!-- Percentage/Discount Calculator -->
+            <div class="calculator-card">
+                <div class="card-header">
+                    <div class="card-icon">💰</div>
+                    <h2 class="card-title">Discount Calculator</h2>
+                </div>
+                <div class="form-group">
+                    <label>Original Price (₹)</label>
+                    <input type="number" id="originalPrice" placeholder="e.g., 1000">
+                </div>
+                <div class="form-group">
+                    <label>Discount Percentage (%)</label>
+                    <input type="number" id="discountPercent" placeholder="e.g., 20">
+                </div>
+                <button class="btn" onclick="calculateDiscount()">Calculate Discount</button>
+                <div id="discountResult" class="result"></div>
+            </div>
+
+            <!-- Age Calculator -->
+            <div class="calculator-card">
+                <div class="card-header">
+                    <div class="card-icon">🎂</div>
+                    <h2 class="card-title">Age Calculator</h2>
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="birthDate">
+                </div>
+                <div class="form-group">
+                    <label>Calculate Age As Of (Optional)</label>
+                    <input type="date" id="ageAsOf">
+                </div>
+                <button class="btn" onclick="calculateAge()">Calculate Age</button>
+                <div id="ageResult" class="result"></div>
+            </div>
+
+            <!-- GPA Calculator -->
+            <div class="calculator-card">
+                <div class="card-header">
+                    <div class="card-icon">🎓</div>
+                    <h2 class="card-title">GPA/CGPA Calculator</h2>
+                </div>
+                <div class="form-group">
+                    <label>Grading System</label>
+                    <select id="gradingSystem" onchange="updateGradeInputs()">
+                        <option value="4">4.0 Scale (US)</option>
+                        <option value="10">10.0 Scale (Indian)</option>
+                    </select>
+                </div>
+                <div id="gradeInputs">
+                    <div class="form-group">
+                        <label>Subject 1 - Grade & Credits</label>
+                        <div class="two-col">
+                            <input type="number" id="grade1" step="0.1" placeholder="Grade" max="4">
+                            <input type="number" id="credits1" placeholder="Credits">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject 2 - Grade & Credits</label>
+                        <div class="two-col">
+                            <input type="number" id="grade2" step="0.1" placeholder="Grade" max="4">
+                            <input type="number" id="credits2" placeholder="Credits">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject 3 - Grade & Credits</label>
+                        <div class="two-col">
+                            <input type="number" id="grade3" step="0.1" placeholder="Grade" max="4">
+                            <input type="number" id="credits3" placeholder="Credits">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject 4 - Grade & Credits</label>
+                        <div class="two-col">
+                            <input type="number" id="grade4" step="0.1" placeholder="Grade" max="4">
+                            <input type="number" id="credits4" placeholder="Credits">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" onclick="calculateGPA()">Calculate GPA/CGPA</button>
+                <div id="gpaResult" class="result"></div>
+            </div>
+
+            <!-- Percentage Calculator -->
+            <div class="calculator-card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <h2 class="card-title">Percentage Calculator</h2>
+                </div>
+                <div class="form-group">
+                    <label>Total Marks/Score</label>
+                    <input type="number" id="totalMarks" placeholder="e.g., 500">
+                </div>
+                <div class="form-group">
+                    <label>Obtained Marks/Score</label>
+                    <input type="number" id="obtainedMarks" placeholder="e.g., 425">
+                </div>
+                <button class="btn" onclick="calculatePercentage()">Calculate Percentage</button>
+                <div id="percentageResult" class="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // EMI Calculator
+        function calculateEMI() {
+            const principal = parseFloat(document.getElementById('loanAmount').value);
+            const rate = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
+            const tenure = parseFloat(document.getElementById('loanTenure').value) * 12;
+            
+            if (!principal || !rate || !tenure) {
+                alert('Please fill all EMI fields');
+                return;
+            }
+            
+            const emi = (principal * rate * Math.pow(1 + rate, tenure)) / (Math.pow(1 + rate, tenure) - 1);
+            const totalAmount = emi * tenure;
+            const totalInterest = totalAmount - principal;
+            
+            const resultDiv = document.getElementById('emiResult');
+            resultDiv.innerHTML = `
+                <div><strong>Monthly EMI: ₹${emi.toFixed(2)}</strong></div>
+                <div class="result-breakdown">
+                    <div class="result-item"><span>Total Amount:</span><span>₹${totalAmount.toFixed(2)}</span></div>
+                    <div class="result-item"><span>Total Interest:</span><span>₹${totalInterest.toFixed(2)}</span></div>
+                    <div class="result-item"><span>Principal:</span><span>₹${principal.toFixed(2)}</span></div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        // BMI Calculator
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value) / 100;
+            const weight = parseFloat(document.getElementById('weight').value);
+            
+            if (!height || !weight) {
+                alert('Please fill all BMI fields');
+                return;
+            }
+            
+            const bmi = weight / (height * height);
+            let category = '';
+            
+            if (bmi < 18.5) category = 'Underweight';
+            else if (bmi < 25) category = 'Normal';
+            else if (bmi < 30) category = 'Overweight';
+            else category = 'Obese';
+            
+            const resultDiv = document.getElementById('bmiResult');
+            resultDiv.innerHTML = `
+                <div><strong>Your BMI: ${bmi.toFixed(1)}</strong></div>
+                <div class="result-breakdown">
+                    <div class="result-item"><span>Category:</span><span>${category}</span></div>
+                    <div class="result-item"><span>Height:</span><span>${(height * 100).toFixed(0)} cm</span></div>
+                    <div class="result-item"><span>Weight:</span><span>${weight} kg</span></div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        // Discount Calculator
+        function calculateDiscount() {
+            const originalPrice = parseFloat(document.getElementById('originalPrice').value);
+            const discountPercent = parseFloat(document.getElementById('discountPercent').value);
+            
+            if (!originalPrice || !discountPercent) {
+                alert('Please fill all discount fields');
+                return;
+            }
+            
+            const discountAmount = (originalPrice * discountPercent) / 100;
+            const finalPrice = originalPrice - discountAmount;
+            
+            const resultDiv = document.getElementById('discountResult');
+            resultDiv.innerHTML = `
+                <div><strong>Final Price: ₹${finalPrice.toFixed(2)}</strong></div>
+                <div class="result-breakdown">
+                    <div class="result-item"><span>Original Price:</span><span>₹${originalPrice.toFixed(2)}</span></div>
+                    <div class="result-item"><span>Discount:</span><span>${discountPercent}%</span></div>
+                    <div class="result-item"><span>You Save:</span><span>₹${discountAmount.toFixed(2)}</span></div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        // Age Calculator
+        function calculateAge() {
+            const birthDate = new Date(document.getElementById('birthDate').value);
+            const ageAsOfInput = document.getElementById('ageAsOf').value;
+            const ageAsOf = ageAsOfInput ? new Date(ageAsOfInput) : new Date();
+            
+            if (!birthDate) {
+                alert('Please enter birth date');
+                return;
+            }
+            
+            let years = ageAsOf.getFullYear() - birthDate.getFullYear();
+            let months = ageAsOf.getMonth() - birthDate.getMonth();
+            let days = ageAsOf.getDate() - birthDate.getDate();
+            
+            if (days < 0) {
+                months--;
+                days += new Date(ageAsOf.getFullYear(), ageAsOf.getMonth(), 0).getDate();
+            }
+            
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            const totalDays = Math.floor((ageAsOf - birthDate) / (1000 * 60 * 60 * 24));
+            const totalWeeks = Math.floor(totalDays / 7);
+            const totalMonths = years * 12 + months;
+            
+            const resultDiv = document.getElementById('ageResult');
+            resultDiv.innerHTML = `
+                <div><strong>Age: ${years} years, ${months} months, ${days} days</strong></div>
+                <div class="result-breakdown">
+                    <div class="result-item"><span>Total Years:</span><span>${years}</span></div>
+                    <div class="result-item"><span>Total Months:</span><span>${totalMonths}</span></div>
+                    <div class="result-item"><span>Total Weeks:</span><span>${totalWeeks}</span></div>
+                    <div class="result-item"><span>Total Days:</span><span>${totalDays}</span></div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        // GPA Calculator
+        function updateGradeInputs() {
+            const scale = document.getElementById('gradingSystem').value;
+            const gradeInputs = document.querySelectorAll('[id^="grade"]');
+            gradeInputs.forEach(input => {
+                input.max = scale;
+                input.placeholder = `Grade (0-${scale})`;
+            });
+        }
+
+        function calculateGPA() {
+            const scale = parseFloat(document.getElementById('gradingSystem').value);
+            let totalGradePoints = 0;
+            let totalCredits = 0;
+            let validSubjects = 0;
+            
+            for (let i = 1; i <= 4; i++) {
+                const grade = parseFloat(document.getElementById(`grade${i}`).value);
+                const credits = parseFloat(document.getElementById(`credits${i}`).value);
+                
+                if (!isNaN(grade) && !isNaN(credits) && grade >= 0 && grade <= scale) {
+                    totalGradePoints += grade * credits;
+                    totalCredits += credits;
+                    validSubjects++;
+                }
+            }
+            
+            if (validSubjects === 0 || totalCredits === 0) {
+                alert('Please enter at least one valid grade and credits');
+                return;
+            }
+            
+            const gpa = totalGradePoints / totalCredits;
+            const percentage = scale === 10 ? gpa * 9.5 : gpa * 25; // Rough conversion
+            
+            const resultDiv = document.getElementById('gpaResult');
+            resultDiv.innerHTML = `
+                <div><strong>${scale === 10 ? 'CGPA' : 'GPA'}: ${gpa.toFixed(2)}/${scale}</strong></div>
+                <div class="result-breakdown">
+                    <div class="result-item"><span>Total Grade Points:</span><span>${totalGradePoints.toFixed(2)}</span></div>
+                    <div class="result-item"><span>Total Credits:</span><span>${totalCredits}</span></div>
+                    <div class="result-item"><span>Subjects Calculated:</span><span>${validSubjects}</span></div>
+                    <div class="result-item"><span>Approx. Percentage:</span><span>${percentage.toFixed(1)}%</span></div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        // Percentage Calculator
+        function calculatePercentage() {
+            const total = parseFloat(document.getElementById('totalMarks').value);
+            const obtained = parseFloat(document.getElementById('obtainedMarks').value);
+            
+            if (!total || !obtained) {
+                alert('Please fill all percentage fields');
+                return;
+            }
+            
+            if (obtained > total) {
+                alert('Obtained marks cannot be greater than total marks');
+                return;
+            }
+            
+            const percentage = (obtained / total) * 100;
+            const difference = total - obtained;
+            
+            let grade = '';
+            if (percentage >= 90) grade = 'A+';
+            else if (percentage >= 80) grade = 'A';
+            else if (percentage >= 70) grade = 'B+';
+            else if (percentage >= 60) grade = 'B';
+            else if (percentage >= 50) grade = 'C';
+            else if (percentage >= 40) grade = 'D';
+            else grade = 'F';
+            
+            const resultDiv = document.getElementById('percentageResult');
+            resultDiv.innerHTML = `
+                <div><strong>Percentage: ${percentage.toFixed(2)}%</strong></div>
+                <div class="result-breakdown">
+                    <div class="result-item"><span>Obtained:</span><span>${obtained}</span></div>
+                    <div class="result-item"><span>Total:</span><span>${total}</span></div>
+                    <div class="result-item"><span>Difference:</span><span>${difference}</span></div>
+                    <div class="result-item"><span>Grade:</span><span>${grade}</span></div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        // Initialize
+        updateGradeInputs();
+    </script>
+</body>
+</html>
